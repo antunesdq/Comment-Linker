@@ -1,142 +1,55 @@
-# helloworld README
+Certainly! Here's an example of a documentation template for the "Comment Linker" extension:
 
-This is the README for your extension "helloworld". After writing up a brief description, we recommend including the following sections.
+# Comment Linker Extension
 
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-# comment-linker README
-
-This is the README for your extension "comment-linker". After writing up a brief description, we recommend including the following sections.
+The **Comment Linker** extension for Visual Studio Code allows you to create clickable links within comments in Python files. It enhances code documentation by providing an easy way to reference other files or locations in your codebase.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Automatically detects and highlights links within comments in Python files.
+- Supports both absolute and relative paths as links.
+- Clicking on a link opens the corresponding file or location within Visual Studio Code.
+- Hovering over a link displays a tooltip with the link description.
+- Works with the popular "One Dark Pro" theme, providing a seamless integration.
 
-For example if there is an image subfolder under your extension project workspace:
+## Installation
 
-\!\[feature X\]\(images/feature-x.png\)
+1. Launch Visual Studio Code.
+2. Go to the Extensions view (Ctrl+Shift+X).
+3. Search for "Comment Linker" and click **Install**.
+4. Reload Visual Studio Code to activate the extension.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Usage
 
-## Requirements
+1. Open a Python file in Visual Studio Code.
+2. Write comments containing links using the following format: `[link description](link target)`. For example: `# Please see the [documentation](/path/to/documentation.md) for more information.`
+3. Save the file. The links will be detected and highlighted automatically.
+4. Hover over a link to view its description in a tooltip.
+5. Click on a link to open the corresponding file or location within Visual Studio Code.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Configuration
 
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+The Comment Linker extension does not require any additional configuration. It automatically detects and highlights links within comments in Python files.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- Currently, the extension only supports Python files.
+- Links are only recognized within comments and not within other parts of the code.
+
+## Feedback and Contributions
+
+If you encounter any issues, have suggestions, or would like to contribute to the Comment Linker extension, please visit the [GitHub repository](https://github.com/your-username/comment-linker). Contributions, bug reports, and feature requests are welcome.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### Version 1.0.0
 
-### 1.0.0
+- Initial release of the Comment Linker extension.
 
-Initial release of ...
+## License
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+This extension is released under the MIT License. See [LICENSE](https://github.com/your-username/comment-linker/blob/main/LICENSE) for details.
 
 ---
 
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Feel free to modify and expand upon this template to include more specific details about your extension, such as additional features, supported languages, or any customization options available.
