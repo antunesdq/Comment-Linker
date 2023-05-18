@@ -4,7 +4,7 @@
   "description": "A simple extension to add links on your comments, links can take you to pages, files or folders. This aim to increse the effectiveness of your code comments.",
   "publisher": "antunesdq",
   "icon": "img/logo.png",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.78.0"
   },
