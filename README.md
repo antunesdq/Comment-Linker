@@ -38,7 +38,7 @@ The Comment Linker extension does not require any additional configuration. It a
 
 ## Feedback and Contributions
 
-If you encounter any issues, have suggestions, or would like to contribute to the Comment Linker extension, please visit the [GitHub repository](https://github.com/your-username/comment-linker). Contributions, bug reports, and feature requests are welcome.
+If you encounter any issues, have suggestions, or would like to contribute to the Comment Linker extension, please visit the [GitHub repository](https://github.com/antunesdq/comment-linker). Contributions, bug reports, and feature requests are welcome.
 
 ## Release Notes
 
