@@ -3,7 +3,8 @@
   "displayName": "Comment Linker",
   "description": "A simple extension to add links on your comments, links can take you to pages, files or folders. This aim to increse the effectiveness of your code comments.",
   "publisher": "antunesdq",
-  "version": "0.0.1",
+  "icon": "img/logo.png",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.78.0"
   },
