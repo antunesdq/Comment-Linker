@@ -18,10 +18,18 @@ The **Comment Linker** extension for Visual Studio Code allows you to create cli
 ## Usage
 
 1. Open a Python file in Visual Studio Code.
-2. Write comments containing links using the following format: `[link description](link target)`. For example: `# Please see the [documentation](/path/to/documentation.md) for more information.`
-3. Save the file. The links will be detected and highlighted automatically.
-4. Hover over a link to view its description in a tooltip.
-5. Click on a link to open the corresponding file or location within Visual Studio Code.
+2. Write comments containing links using the following format: 
+    ```
+    [link description](link target)
+    ```
+    For example: 
+    
+    ```
+    # Please see the [documentation](/path/to/documentation.md) for more information.
+    ```
+4. Save the file. The links will be detected and highlighted automatically.
+5. Hover over a link to view its description in a tooltip.
+6. Click on a link to open the corresponding file or location within Visual Studio Code.
 
 ## Configuration
 
