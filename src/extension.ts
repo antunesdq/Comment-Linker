@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 
 // Decoration for the visible link text
 const visibleLinkDecoration = vscode.window.createTextEditorDecorationType({
@@ -9,11 +10,31 @@ const visibleLinkDecoration = vscode.window.createTextEditorDecorationType({
 
 // Decoration for the hidden parts (brackets and path)
 const hiddenDecoration = vscode.window.createTextEditorDecorationType({
-    textDecoration: 'none; display: none'  // This will completely collapse the hidden parts
+    textDecoration: 'none; display: none'
 });
 
 class MyLinkProvider implements vscode.DocumentLinkProvider {
     constructor(private context: vscode.ExtensionContext) {}
+
+    private resolvePath(document: vscode.TextDocument, rawPath: string): string {
+        // Handle absolute paths
+        if (path.isAbsolute(rawPath)) {
+            return rawPath;
+        }
+
+        // Handle root-relative paths (starting with /)
+        if (rawPath.startsWith('/')) {
+            const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
+            if (workspaceFolder) {
+                return path.join(workspaceFolder.uri.fsPath, rawPath.substring(1));
+            }
+            return rawPath;
+        }
+
+        // Handle relative paths (from current file's directory)
+        const currentFileDir = path.dirname(document.uri.fsPath);
+        return path.join(currentFileDir, rawPath);
+    }
 
     provideDocumentLinks(document: vscode.TextDocument, token: vscode.CancellationToken): vscode.ProviderResult<vscode.DocumentLink[]> {
         const text = document.getText();
@@ -26,14 +47,9 @@ class MyLinkProvider implements vscode.DocumentLinkProvider {
 
         while ((match = linkPattern.exec(text))) {
             const [fullMatch, desc, path, line] = match;
-            let fullPath = path;
             
-            if (!fullPath.startsWith('/')) {
-                const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-                if (workspaceFolder) {
-                    fullPath = vscode.Uri.joinPath(workspaceFolder.uri, fullPath).fsPath;
-                }
-            }
+            // Resolve the path (handling both relative and absolute paths)
+            const resolvedPath = this.resolvePath(document, path);
             
             // Range for the visible description text
             const descStart = document.positionAt(match.index + 1); // Skip '['
@@ -47,12 +63,11 @@ class MyLinkProvider implements vscode.DocumentLinkProvider {
             const hiddenAfterRange = new vscode.Range(descEnd, fullEnd);
             const fullRange = new vscode.Range(fullStart, fullEnd);
             
-            const uri = vscode.Uri.file(fullPath);
-            if (line) {
-                uri.with({ fragment: line });
-            }
+            const uri = vscode.Uri.file(resolvedPath);
+            // Create URI with line number if specified
+            const targetUri = line ? uri.with({ fragment: `L${line}` }) : uri;
             
-            const link = new vscode.DocumentLink(descRange, uri);
+            const link = new vscode.DocumentLink(descRange, targetUri);
             links.push(link);
             visibleRanges.push(descRange);
             hiddenRanges.push(hiddenBeforeRange, hiddenAfterRange);
@@ -60,7 +75,7 @@ class MyLinkProvider implements vscode.DocumentLinkProvider {
         }
         
         const editor = vscode.window.activeTextEditor;
-        if (editor) {
+        if (editor && editor.document === document) {
             // Apply initial decorations (show only link text)
             editor.setDecorations(visibleLinkDecoration, visibleRanges);
             editor.setDecorations(hiddenDecoration, hiddenRanges);
@@ -117,7 +132,7 @@ class MyHoverProvider implements vscode.HoverProvider {
             const match = linkText.match(linkPattern);
             if (match) {
                 const [, desc, path, line] = match;
-                const markdownString = new vscode.MarkdownString(`[${desc}](${path}${line ? `:${line}` : ''})`);
+                const markdownString = new vscode.MarkdownString(`Go to: ${path}${line ? ` (line ${line})` : ''}`);
                 markdownString.isTrusted = true;
                 return new vscode.Hover(markdownString);
             }

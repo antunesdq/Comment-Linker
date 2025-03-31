@@ -1,12 +1,13 @@
 # Comment Linker Extension
 
-The **Comment Linker** extension for Visual Studio Code allows you to create clickable links within comments in Python files. It enhances code documentation by providing an easy way to reference other files or locations in your codebase.
+The **Comment Linker** extension for Visual Studio Code allows you to create clickable links within comments in Python files. It enhances code documentation by providing an easy way to reference other files, locations, or specific lines in your codebase.
 
 ## Features
 
 - Automatically detects and highlights links within comments in Python files.
-- Supports both absolute and relative paths as links.
-- Clicking on a link opens the corresponding file or location within Visual Studio Code.
+- Supports absolute paths, relative paths, and links to specific line numbers.
+- Clicking on a link opens the corresponding file, location, or line within Visual Studio Code.
+- Markdown-like experience where after aditing the link, only the link's text will be available, without the url itself.
 
 ## Installation
 
@@ -22,14 +23,27 @@ The **Comment Linker** extension for Visual Studio Code allows you to create cli
     ```
     [link description](link target)
     ```
-    For example: 
-    
-    ```
-    # Please see the [documentation](/path/to/documentation.md) for more information.
-    ```
-4. Save the file. The links will be detected and highlighted automatically.
-5. Hover over a link to view its description in a tooltip.
-6. Click on a link to open the corresponding file or location within Visual Studio Code.
+    Examples:
+    - Absolute path: 
+      ```
+      # Refer to the [config file](/absolute/path/to/config.py).
+      ```
+      ![Absolute Path Example](img/Absolute%20Path.gif)
+    - Relative path:
+      ```
+      # Check the [helper script](../relative/path/to/helper.py).
+      ```
+      ![Relative Path Example](img/Relative%20Path.gif)
+    - Line number:
+      ```
+      # See the [function definition](../relative/path/to/file.py#L42).
+      ```
+      ![Line Path Example](img/Line%20Path.gif)
+
+3. Save the file. The links will be detected and highlighted automatically.
+4. Hover over a link to view its description in a tooltip.
+5. Click on a link to open the corresponding file, location, or line within Visual Studio Code.
+6. When the file is closed or not being worked on, the link highlighting will be removed, leaving only the plain text.
 
 ## Configuration
 
@@ -45,6 +59,12 @@ The Comment Linker extension does not require any additional configuration. It a
 If you encounter any issues, have suggestions, or would like to contribute to the Comment Linker extension, please visit the [GitHub repository](https://github.com/antunesdq/Comment-Linker). Contributions, bug reports, and feature requests are welcome.
 
 ## Release Notes
+
+### Version 1.1.0
+
+- Added support for linking to specific line numbers.
+- Enhanced support for absolute and relative paths.
+- Implemented automatic link removal when the file is not being worked on.
 
 ### Version 1.0.0
 
