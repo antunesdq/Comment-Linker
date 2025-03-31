@@ -21,29 +21,28 @@ The **Comment Linker** extension for Visual Studio Code allows you to create cli
 1. Open a Python file in Visual Studio Code.
 2. Write comments containing links using the following format: 
     ```
-    [link description](link target)
+    [description](path|url:line)
     ```
     Examples:
     - Absolute path: 
       ```
-      # Refer to the [config file](/absolute/path/to/config.py).
+      # Check on the [docs](/home/mattdq/Comment-Linker/example/otherfile.py) for more details.
       ```
       ![Absolute Path Example](img/Absolute%20Path.gif)
     - Relative path:
       ```
-      # Check the [helper script](../relative/path/to/helper.py).
+      # Check on the [docs](folder/otherfile.py) for more details.
       ```
       ![Relative Path Example](img/Relative%20Path.gif)
     - Line number:
       ```
-      # See the [function definition](../relative/path/to/file.py#L42).
+      # Check on the [docs](otherfile.py:16) for more details.
       ```
       ![Line Path Example](img/Line%20Path.gif)
 
 3. Save the file. The links will be detected and highlighted automatically.
 4. Hover over a link to view its description in a tooltip.
 5. Click on a link to open the corresponding file, location, or line within Visual Studio Code.
-6. When the file is closed or not being worked on, the link highlighting will be removed, leaving only the plain text.
 
 ## Configuration
 
@@ -64,7 +63,7 @@ If you encounter any issues, have suggestions, or would like to contribute to th
 
 - Added support for linking to specific line numbers.
 - Enhanced support for absolute and relative paths.
-- Implemented automatic link removal when the file is not being worked on.
+- Markdown-like experience where after aditing the link, only the link's text will be available, without the url itself.
 
 ### Version 1.0.0
 
