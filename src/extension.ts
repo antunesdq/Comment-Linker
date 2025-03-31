@@ -9,8 +9,7 @@ const visibleLinkDecoration = vscode.window.createTextEditorDecorationType({
 
 // Decoration for the hidden parts (brackets and path)
 const hiddenDecoration = vscode.window.createTextEditorDecorationType({
-    color: 'transparent',
-    textDecoration: 'none'
+    textDecoration: 'none; display: none'  // This will completely collapse the hidden parts
 });
 
 class MyLinkProvider implements vscode.DocumentLinkProvider {
@@ -76,9 +75,13 @@ class MyLinkProvider implements vscode.DocumentLinkProvider {
                         });
                         
                         if (shouldShow) {
+                            // Show all parts
                             editor.setDecorations(hiddenDecoration, []);
+                            editor.setDecorations(visibleLinkDecoration, []);
                         } else {
+                            // Hide brackets and path, show only link text
                             editor.setDecorations(hiddenDecoration, hiddenRanges);
+                            editor.setDecorations(visibleLinkDecoration, visibleRanges);
                         }
                     }
                 }
