@@ -22,6 +22,7 @@ class MyLinkProvider implements vscode.DocumentLinkProvider {
         const links: vscode.DocumentLink[] = [];
         const visibleRanges: vscode.Range[] = [];
         const hiddenRanges: vscode.Range[] = [];
+        const fullLinkRanges: vscode.Range[] = [];
 
         while ((match = linkPattern.exec(text))) {
             const [fullMatch, desc, path, line] = match;
@@ -44,6 +45,7 @@ class MyLinkProvider implements vscode.DocumentLinkProvider {
             const fullEnd = document.positionAt(match.index + fullMatch.length);
             const hiddenBeforeRange = new vscode.Range(fullStart, descStart);
             const hiddenAfterRange = new vscode.Range(descEnd, fullEnd);
+            const fullRange = new vscode.Range(fullStart, fullEnd);
             
             const uri = vscode.Uri.file(fullPath);
             if (line) {
@@ -54,50 +56,52 @@ class MyLinkProvider implements vscode.DocumentLinkProvider {
             links.push(link);
             visibleRanges.push(descRange);
             hiddenRanges.push(hiddenBeforeRange, hiddenAfterRange);
+            fullLinkRanges.push(fullRange);
         }
         
         const editor = vscode.window.activeTextEditor;
         if (editor) {
-            // Apply decorations
+            // Apply initial decorations (show only link text)
             editor.setDecorations(visibleLinkDecoration, visibleRanges);
             editor.setDecorations(hiddenDecoration, hiddenRanges);
             
-            // Show full text when cursor is near
-            const showFullText = vscode.window.onDidChangeTextEditorSelection(e => {
-                if (e.textEditor === editor) {
-                    const position = e.selections[0]?.active;
-                    if (position) {
-                        const shouldShow = links.some((link: vscode.DocumentLink) => {
-                            const range = link.range;
-                            // Show if cursor is within 5 characters of the link
-                            return Math.abs(position.line - range.start.line) <= 1 && 
-                                   Math.abs(position.character - range.start.character) <= 5;
-                        });
-                        
-                        if (shouldShow) {
-                            // Show all parts
-                            editor.setDecorations(hiddenDecoration, []);
-                            editor.setDecorations(visibleLinkDecoration, []);
-                        } else {
-                            // Hide brackets and path, show only link text
-                            editor.setDecorations(hiddenDecoration, hiddenRanges);
-                            editor.setDecorations(visibleLinkDecoration, visibleRanges);
-                        }
-                    }
+            // Track which lines have links
+            const linkLines = new Set(fullLinkRanges.map(range => range.start.line));
+            
+            // Update visibility based on cursor position
+            const updateLinkVisibility = () => {
+                const position = editor.selection?.active;
+                if (position && linkLines.has(position.line)) {
+                    // Cursor is on a line with links - show full markup
+                    editor.setDecorations(hiddenDecoration, []);
+                    editor.setDecorations(visibleLinkDecoration, []);
+                } else {
+                    // Cursor is not on a line with links - show only link text
+                    editor.setDecorations(hiddenDecoration, hiddenRanges);
+                    editor.setDecorations(visibleLinkDecoration, visibleRanges);
                 }
-            });
+            };
+            
+            // Set up event listeners
+            const selectionDisposable = vscode.window.onDidChangeTextEditorSelection(updateLinkVisibility);
+            const textChangeDisposable = vscode.window.onDidChangeTextEditorSelection(updateLinkVisibility);
+            
+            // Initial update
+            updateLinkVisibility();
             
             // Clean up when editor changes
-            const disposable = vscode.window.onDidChangeActiveTextEditor(e => {
+            const editorChangeDisposable = vscode.window.onDidChangeActiveTextEditor(e => {
                 if (e !== editor) {
-                    showFullText.dispose();
-                    disposable.dispose();
+                    selectionDisposable.dispose();
+                    textChangeDisposable.dispose();
+                    editorChangeDisposable.dispose();
                 }
             });
             
             // Add disposables to context
-            this.context.subscriptions.push(showFullText);
-            this.context.subscriptions.push(disposable);
+            this.context.subscriptions.push(selectionDisposable);
+            this.context.subscriptions.push(textChangeDisposable);
+            this.context.subscriptions.push(editorChangeDisposable);
         }
         
         return links;
